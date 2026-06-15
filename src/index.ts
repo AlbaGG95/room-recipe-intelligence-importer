@@ -1,3 +1,4 @@
+import { transformMeal } from "./application/transformMeal.js";
 import { searchMealsByName } from "./infrastructure/mealDbClient.js";
 import { readRecipeSearchTerms } from "./utils/readRecipeSearchTerms.js";
 
@@ -14,8 +15,17 @@ try {
 
   for (const recipeSearchTerm of recipeSearchTerms) {
     const meals = await searchMealsByName(recipeSearchTerm);
+    const recipes = meals.map((meal) => transformMeal(meal));
 
-    console.log(`- ${recipeSearchTerm}: ${meals.length} meal(s) found`);
+    const firstRecipe = recipes[0];
+    const firstRecipeSummary =
+      firstRecipe === undefined
+        ? ""
+        : ` First: ${firstRecipe.name} (${firstRecipe.ingredients.length} ingredient(s))`;
+
+    console.log(
+      `- ${recipeSearchTerm}: ${meals.length} meal(s) found, ${recipes.length} recipe(s) transformed.${firstRecipeSummary}`,
+    );
   }
 } catch (error) {
   const message = error instanceof Error ? error.message : "Unknown error";
