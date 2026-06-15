@@ -1,0 +1,45 @@
+{
+  "name": "room-recipe-intelligence-importer",
+  "version": "1.0.0",
+  "description": "TypeScript CLI tool to import, normalize and store recipe data for future AI-powered cart recommendation workflows.",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts recipes.txt",
+    "import": "tsx src/index.ts",
+    "build": "tsc",
+    "check": "tsc --noEmit",
+    "start": "node dist/index.js recipes.txt",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "keywords": [
+    "recipes",
+    "typescript",
+    "prisma",
+    "sqlite",
+    "ai",
+    "recommendation"
+  ],
+  "author": "Alba Ganduxé García",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlbaGG95/room-recipe-intelligence-importer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AlbaGG95/room-recipe-intelligence-importer/issues"
+  },
+  "homepage": "https://github.com/AlbaGG95/room-recipe-intelligence-importer#readme",
+  "dependencies": {
+    "@prisma/client": "^6.19.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "prisma": "^6.19.3",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}
