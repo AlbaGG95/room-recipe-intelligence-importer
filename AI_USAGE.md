@@ -10,7 +10,8 @@ AI supported:
 - drafting and refining documentation;
 - reviewing TypeScript, Prisma, and CLI scope;
 - identifying validation commands;
-- checking that the implementation stayed within the challenge constraints.
+- checking that the implementation stayed within the challenge constraints;
+- adding minimal unit tests after the core importer was implemented.
 
 ## Representative Prompts
 
@@ -44,6 +45,7 @@ AI-generated suggestions were reviewed manually before being accepted. Changes w
 ```bash
 npx.cmd prisma validate
 npm.cmd run check
+npm.cmd test
 npm.cmd run dev
 ```
 
@@ -51,7 +53,9 @@ The importer was also run more than once to confirm idempotent persistence and a
 
 ## What Was Not Delegated To AI
 
-AI did not make final product decisions, approve schema changes independently, or decide challenge scope. Real LLM calls, embeddings, frontend work, and tests were not added because they were outside the current challenge scope.
+AI did not make final product decisions, approve schema changes independently, or decide challenge scope. Real LLM calls, embeddings, frontend work, and product catalog matching were not implemented because they were outside the current challenge scope.
+
+Minimal unit tests were added after the core implementation to cover input parsing, meal transformation, and TheMealDB client response handling with mocked `fetch`. Coverage is intentionally limited to low-risk core behavior.
 
 ## Reflection
 

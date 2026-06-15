@@ -56,4 +56,6 @@ Reads recipe search terms from a text file, trims whitespace, and ignores empty 
 
 ## Current Scope
 
-The implemented project is a CLI importer. It does not include a frontend, recommendation API, product catalog matching, real LLM calls, embeddings, or tests.
+The implemented project is a CLI importer with minimal unit tests for input parsing, meal transformation, and TheMealDB client behavior with mocked `fetch`.
+
+It does not include a frontend, recommendation API, product catalog matching, real LLM calls, or embeddings.
