@@ -106,6 +106,14 @@ Search terms without results: 1
 Failed search terms: 0
 ```
 
+## Running Tests
+
+```bash
+npm.cmd test
+```
+
+Minimal unit tests cover input parsing, meal transformation, and TheMealDB client response handling with mocked `fetch`.
+
 ## AI-Ready Data Preparation
 
 The project prepares recipe data for future AI or recommendation workflows by:
@@ -136,7 +144,7 @@ No real LLM call is made in this challenge.
 
 ## Known Limitations
 
-- No automated tests are included yet.
+- Test coverage is intentionally minimal and focused on core parsing and transformation behavior.
 - TheMealDB calls are made sequentially.
 - Ingredient normalization is basic text cleanup.
 - Product catalog matching is outside the current scope.
@@ -144,7 +152,7 @@ No real LLM call is made in this challenge.
 
 ## Future Improvements
 
-- Add unit and integration tests.
+- Expand unit test coverage and add integration tests for Prisma persistence.
 - Improve ingredient canonicalization.
 - Match normalized ingredients against a product catalog.
 - Add a recommendation API.

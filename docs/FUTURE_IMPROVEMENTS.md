@@ -2,7 +2,7 @@
 
 ## Tests
 
-Add unit tests for file parsing, transformation, ingredient normalization, and import summary behavior. Add integration tests for Prisma persistence.
+Expand unit test coverage for importer summary behavior and edge cases. Add integration tests for Prisma persistence.
 
 ## Better Ingredient Canonicalization
 
@@ -26,7 +26,7 @@ Add a Docker setup to make local execution more consistent across environments.
 
 ## CI
 
-Add CI checks for Prisma validation, TypeScript validation, formatting, and tests once tests exist.
+Add CI checks for Prisma validation, TypeScript validation, formatting, and the test suite.
 
 ## TheMealDB Resilience
 
