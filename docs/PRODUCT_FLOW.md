@@ -33,4 +33,6 @@ flowchart TD
 
 ## Current Status
 
-Only the development environment, Prisma schema, folder structure, and documentation base are prepared. The importer flow shown above is the intended implementation path, not the current runtime behavior.
+The CLI importer is implemented. It reads recipe search terms from `recipes.txt`, calls TheMealDB, transforms meals into normalized recipe data, and stores recipes, ingredients, and import logs in SQLite with Prisma.
+
+Recommendation logic, product catalog matching, frontend screens, embeddings, and real LLM calls remain out of scope.
