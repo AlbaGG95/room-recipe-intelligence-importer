@@ -27,8 +27,10 @@ Build a small TypeScript CLI that imports recipe data from TheMealDB, normalizes
 Run the relevant checks after changes:
 
 ```bash
+npm.cmd test
 npx.cmd prisma validate
 npm.cmd run check
+npm.cmd run build
 npm.cmd run dev
 ```
 
@@ -37,7 +39,7 @@ Use `npm` and `npx` without `.cmd` only when the shell supports them.
 ## Scope Control Rules
 
 - Do not add frontend code.
-- Do not add tests until requested.
+- Do not expand test scope unless explicitly requested.
 - Do not change the Prisma schema unless there is a clear data model issue.
 - Do not modify migrations unless the schema is invalid.
 - Do not run `npm audit fix` or `npm audit fix --force`.
