@@ -1,5 +1,5 @@
-import { transformMeal } from "./application/transformMeal.js";
-import { searchMealsByName } from "./infrastructure/mealDbClient.js";
+import { importRecipes } from "./application/importRecipes.js";
+import { prisma } from "./infrastructure/prismaClient.js";
 import { readRecipeSearchTerms } from "./utils/readRecipeSearchTerms.js";
 
 const inputFilePath = process.argv[2] ?? "recipes.txt";
@@ -11,26 +11,36 @@ try {
     `Loaded ${recipeSearchTerms.length} recipe search term(s) from ${inputFilePath}.`,
   );
   console.log("");
-  console.log("Searching TheMealDB:");
+  console.log("Importing recipes:");
 
-  for (const recipeSearchTerm of recipeSearchTerms) {
-    const meals = await searchMealsByName(recipeSearchTerm);
-    const recipes = meals.map((meal) => transformMeal(meal));
+  const summary = await importRecipes(recipeSearchTerms);
 
-    const firstRecipe = recipes[0];
-    const firstRecipeSummary =
-      firstRecipe === undefined
-        ? ""
-        : ` First: ${firstRecipe.name} (${firstRecipe.ingredients.length} ingredient(s))`;
-
-    console.log(
-      `- ${recipeSearchTerm}: ${meals.length} meal(s) found, ${recipes.length} recipe(s) transformed.${firstRecipeSummary}`,
-    );
+  for (const result of summary.results) {
+    if (result.status === "IMPORTED") {
+      console.log(
+        `- ${result.searchTerm}: ${result.recipesImported} recipe(s) imported`,
+      );
+    } else if (result.status === "NOT_FOUND") {
+      console.log(`- ${result.searchTerm}: no recipes found`);
+    } else {
+      console.log(`- ${result.searchTerm}: failed`);
+    }
   }
+
+  console.log("");
+  console.log("Import completed.");
+  console.log(`Search terms processed: ${summary.searchTermsProcessed}`);
+  console.log(`Recipes imported: ${summary.recipesImported}`);
+  console.log(
+    `Search terms without results: ${summary.searchTermsWithoutResults}`,
+  );
+  console.log(`Failed search terms: ${summary.failedSearchTerms}`);
 } catch (error) {
   const message = error instanceof Error ? error.message : "Unknown error";
 
-  console.error("Recipe search failed.");
+  console.error("Recipe import failed.");
   console.error(message);
   process.exit(1);
+} finally {
+  await prisma.$disconnect();
 }
