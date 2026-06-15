@@ -2,32 +2,40 @@
 
 ## Use TypeScript
 
-TypeScript provides type safety and clear contracts for API transformation and database persistence while keeping the project approachable for a junior challenge.
+TypeScript gives clear types for API responses, normalized recipes, and persistence inputs while keeping the project suitable for a junior technical challenge.
 
 ## Use SQLite
 
-SQLite is simple to run locally, requires no external database service, and is enough for a CLI importer challenge.
+SQLite keeps the project easy to run locally without requiring an external database service.
 
 ## Use Prisma
 
-Prisma gives a clear schema, generated client, and repeatable migrations. This keeps database access explicit and easy to validate.
+Prisma provides a readable schema, generated client, migrations, and straightforward SQLite persistence.
+
+## Build A CLI Instead Of A Frontend
+
+The challenge focuses on backend import and data preparation. A frontend would add scope without improving the core importer evaluation.
 
 ## Normalize Ingredients
 
-Ingredients are stored in their own table because future product matching depends on comparing ingredients across recipes. A single recipe JSON blob would make that harder.
+Ingredients are stored in their own table so they can later be searched, compared, deduplicated, and matched against catalog products.
+
+## Upsert Recipes By `externalId`
+
+TheMealDB recipe IDs are used as stable external identifiers. Upserting by `externalId` makes repeated imports idempotent and avoids duplicate recipe records.
+
+## Replace Ingredients On Re-Import
+
+Ingredients are deleted and recreated for an existing recipe during re-import. This keeps the stored ingredient list aligned with the latest transformed recipe data.
 
 ## Keep Import Logs
 
-Import logs provide traceability for each search term and make failed imports easier to inspect.
+Each search term creates an import log with `IMPORTED`, `NOT_FOUND`, or `FAILED`. This makes CLI runs auditable and easier to debug.
 
-## Store Raw Payload
+## Use A Deterministic `llmSummary`
 
-The raw API payload is stored so transformation decisions can be audited later. This is useful while the importer logic is still evolving.
+The project stores a simple deterministic summary string instead of making real LLM calls. This keeps the data model AI-ready without adding credentials, cost, latency, or review complexity.
 
-## Do Not Add A Frontend
+## Continue After Per-Search Failures
 
-The challenge is focused on the CLI import and persistence workflow. A frontend would increase scope without proving the core data preparation goal.
-
-## Do Not Add Real LLM Calls In This Challenge
-
-The data model is AI-ready, but real LLM calls are intentionally out of scope. This avoids extra credentials, cost, latency, and validation concerns in a small technical challenge.
+A failure for one search term is logged as `FAILED` and does not stop the full import. This makes the importer more useful for batch input files.

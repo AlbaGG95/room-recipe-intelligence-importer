@@ -2,75 +2,120 @@
 
 TypeScript CLI project for a Room 714 junior developer technical challenge.
 
-The importer is intended to read recipe search terms from a text file, fetch matching recipe data from TheMealDB, normalize the response into an AI-ready structure, and store the result in SQLite with Prisma.
+The importer reads recipe search terms from a text file, fetches matching meals from TheMealDB, transforms them into normalized recipe objects, and stores recipes, ingredients, and import logs in SQLite using Prisma.
 
 ## Challenge Context
 
-This repository focuses on the backend data preparation step for a future recipe-to-cart recommendation experience. The goal is to show clear product thinking, maintainable TypeScript, data normalization, and traceable imports within a small technical challenge scope.
+The project focuses on the backend data preparation step for a future recipe-to-cart recommendation experience. It demonstrates file input handling, external API integration, transformation logic, ingredient normalization, idempotent persistence, and traceable imports.
 
-## Importer Goal
+## What The Importer Does
 
-The planned CLI flow is:
-
-1. Read recipe names from `recipes.txt`.
-2. Query TheMealDB for each search term.
-3. Transform raw API data into a normalized internal model.
-4. Store recipes, ingredients, and import logs in SQLite.
-5. Keep the stored data ready for future AI-assisted recommendations.
-
-Importer business logic is not implemented yet. The current CLI only confirms that the project entry point is ready.
+1. Reads recipe search terms from `recipes.txt`.
+2. Calls TheMealDB for each search term.
+3. Handles searches with no results.
+4. Transforms raw meal records into internal recipe objects.
+5. Extracts and normalizes ingredients.
+6. Stores recipes and ingredients in SQLite.
+7. Updates existing recipes by `externalId` and replaces their ingredients.
+8. Creates import logs with `IMPORTED`, `NOT_FOUND`, or `FAILED`.
 
 ## Tech Stack
 
 - Node.js
 - TypeScript with strict mode
-- tsx for local execution
-- Prisma ORM
+- tsx
+- Prisma
 - SQLite
+- TheMealDB public API
 
-## Current Status
-
-- Project configuration exists.
-- Prisma schema exists and has an initial migration.
-- Prisma Client can be generated.
-- Source folders are prepared.
-- Documentation base is being added.
-- Importer logic, API calls, and data persistence workflows are still pending.
-
-## Input File Format
-
-Recipe search terms are expected in `recipes.txt`, one recipe per line.
-
-Example:
-
-```text
-Arrabiata
-Chicken
-Beef Wellington
-xyzrecipethatdoesntexist
-```
-
-Empty lines should be ignored when the importer is implemented.
-
-## Development Commands
+## Installation
 
 ```bash
 npm install
+```
+
+## Environment Setup
+
+Copy the example environment file and keep the local SQLite URL:
+
+```bash
+cp .env.example .env
+```
+
+Expected value:
+
+```text
+DATABASE_URL="file:./dev.db"
+```
+
+## Prisma Setup
+
+Validate the schema, generate Prisma Client, and apply migrations:
+
+```bash
 npx.cmd prisma validate
 npx.cmd prisma generate
-npx.cmd prisma migrate dev --name init
-npm.cmd run check
+npx.cmd prisma migrate dev
+```
+
+On shells where `.cmd` is not needed, use the equivalent `npx` commands.
+
+The local SQLite database file is ignored by Git and can be recreated from the committed Prisma migrations.
+
+## Running The Importer
+
+Recipe search terms are read from `recipes.txt`, one term per line. Empty lines are ignored.
+
+```bash
 npm.cmd run dev
 ```
 
-On shells where `.cmd` is not required, the equivalent `npm` and `npx` commands can be used.
+Expected output shape:
 
-## Database Notes
+```text
+Loaded 10 recipe search term(s) from recipes.txt.
 
-SQLite is configured through `DATABASE_URL` in `.env`.
+Importing recipes:
+- Arrabiata: 1 recipe(s) imported
+- Chicken: 25 recipe(s) imported
+- xyzrecipethatdoesntexist: no recipes found
 
-The local database file is ignored by Git. Prisma migrations should be committed so the schema can be recreated in a clean environment.
+Import completed.
+Search terms processed: 10
+Recipes imported: 51
+Search terms without results: 1
+Failed search terms: 0
+```
 
-## Scope Note
+## Data Model Summary
 
-This project does not include a frontend. The importer implementation, TheMealDB integration, and recommendation logic will be added only after the setup and documentation base are confirmed.
+- `Recipe`: main normalized recipe record, keyed by TheMealDB `externalId`.
+- `RecipeIngredient`: normalized ingredient rows connected to a recipe.
+- `ImportLog`: trace of each processed search term and its result.
+
+## Implementation Highlights
+
+- Idempotent recipe persistence using `externalId`.
+- Ingredients are deleted and recreated when a recipe is re-imported.
+- Each search term is processed independently.
+- Failed search terms are logged and do not stop the full import.
+- `llmSummary` is deterministic text generated locally; no real LLM call is made.
+- Raw TheMealDB payloads are preserved for traceability.
+
+## Known Limitations
+
+- No automated tests are included yet.
+- TheMealDB calls are made sequentially.
+- Ingredient normalization is basic text cleanup.
+- There is no product catalog matching yet.
+- There is no frontend or recommendation API.
+
+## Future Improvements
+
+- Add unit and integration tests.
+- Improve ingredient canonicalization.
+- Match normalized ingredients against a product catalog.
+- Add a recommendation API.
+- Explore embeddings or vector search for recipe discovery.
+- Add Docker and CI validation.
+- Add retry and rate-limit handling for TheMealDB.

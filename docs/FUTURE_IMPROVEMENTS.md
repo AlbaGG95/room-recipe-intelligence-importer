@@ -1,33 +1,37 @@
 # Future Improvements
 
-## Ingredient Matching Against A Real Product Catalog
+## Tests
 
-Connect normalized ingredients to a product catalog so recipe ingredients can become cart suggestions.
+Add unit tests for file parsing, transformation, ingredient normalization, and import summary behavior. Add integration tests for Prisma persistence.
 
-## Semantic Ingredient Normalization
+## Better Ingredient Canonicalization
 
-Improve normalization beyond basic text cleanup by handling synonyms, plural forms, preparation notes, and regional naming differences.
+Improve normalization with synonym handling, plural handling, preparation note cleanup, and unit-aware parsing.
 
-## Embeddings For Recipe Search
+## Product Catalog Matching
 
-Use embeddings to support semantic recipe search, similar recipe discovery, and better ingredient-based recommendations.
+Match normalized recipe ingredients against real catalog products to support cart suggestions.
 
 ## Recommendation API
 
-Expose an API that receives recipe or ingredient input and returns ranked cart recommendations.
+Expose an API that can receive cart contents or recipe input and return compatible recipes or missing products.
 
-## Scheduled Imports
+## Embeddings Or Vector Search
 
-Add scheduled import jobs to refresh recipe data and keep the local database up to date.
-
-## Tests
-
-Add unit tests for parsing and normalization, plus integration tests for Prisma persistence and importer workflows.
+Explore embeddings for semantic recipe search and ingredient similarity. This is not currently implemented.
 
 ## Docker
 
-Provide a Docker setup so the CLI can run consistently across machines.
+Add a Docker setup to make local execution more consistent across environments.
 
-## CI Validation
+## CI
 
-Add continuous integration checks for TypeScript, Prisma validation, formatting, and tests once tests exist.
+Add CI checks for Prisma validation, TypeScript validation, formatting, and tests once tests exist.
+
+## TheMealDB Resilience
+
+Add retry behavior, timeout handling, and rate-limit awareness around TheMealDB requests.
+
+## Import Reporting
+
+Add more detailed reporting for imported recipe IDs, failed search terms, skipped records, and timing information.

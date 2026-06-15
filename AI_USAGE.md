@@ -1,35 +1,45 @@
 # AI Usage
 
-AI is used in this project as a development assistant, not as the owner of product or engineering decisions.
+AI was used as a development assistant during this technical challenge. It helped structure the work, draft documentation, review implementation scope, and suggest validation steps.
 
-## Intended Use
+## AI-Supported Tasks
 
-AI may help with:
+AI supported:
 
-- planning implementation steps;
-- drafting documentation;
-- reviewing structure and scope;
-- suggesting validation commands;
-- identifying risks or missing checks.
+- planning the implementation in small increments;
+- drafting and refining documentation;
+- reviewing TypeScript, Prisma, and CLI scope;
+- identifying validation commands;
+- checking that the implementation stayed within the challenge constraints.
 
-## Help Provided So Far
+## Representative Prompts
 
-AI has helped prepare the development environment, validate Prisma and TypeScript setup, create the initial folder structure, and draft the documentation base.
+Representative prompts included requests to:
+
+- analyze the challenge requirements and define a narrow implementation scope;
+- prepare documentation and a simple project structure;
+- implement reading recipe search terms from a text file;
+- implement a TheMealDB client using native `fetch`;
+- transform raw meal records into normalized recipe objects;
+- add Prisma persistence with idempotent imports by `externalId`;
+- review validation output and decide whether the next step was safe to continue.
+
+These prompts were used to support planning, drafting, implementation proposals, and review. Final decisions and validation remained human-owned.
 
 ## Human-Owned Decisions
 
-The following decisions remain human-owned:
+The following decisions remained human-owned:
 
-- final data model choices;
+- final project scope;
+- data model acceptance;
+- use of SQLite and Prisma;
 - importer behavior;
-- API error handling strategy;
-- normalization rules;
-- whether to introduce AI-generated summaries;
-- what should be included in the final challenge submission.
+- error handling expectations;
+- what to include in the final submission.
 
-## Validation Of AI Suggestions
+## Review And Validation
 
-Generated suggestions should be validated with project commands before they are accepted:
+AI-generated suggestions were reviewed manually before being accepted. Changes were validated with:
 
 ```bash
 npx.cmd prisma validate
@@ -37,8 +47,12 @@ npm.cmd run check
 npm.cmd run dev
 ```
 
-Implementation changes should also be reviewed manually for scope, readability, and maintainability.
+The importer was also run more than once to confirm idempotent persistence and avoid duplicate recipe errors.
 
-## Importer Implementation Review
+## What Was Not Delegated To AI
 
-Importer implementation decisions must be reviewed manually before they are considered final. This is especially important for API mapping, ingredient normalization, persistence behavior, and import logs.
+AI did not make final product decisions, approve schema changes independently, or decide challenge scope. Real LLM calls, embeddings, frontend work, and tests were not added because they were outside the current challenge scope.
+
+## Reflection
+
+AI was useful as a reasoning and review assistant, especially for keeping the work incremental and checking edge cases. The final responsibility for correctness, scope control, and validation remains with the developer.
